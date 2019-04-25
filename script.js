@@ -57,7 +57,6 @@ let convertRuleToBinAndReverse = function (rule = 30) {
     return binaryRuleReversed;
 }
 
-
 let getNewCellState = function (cellIndex, rule = 30) {
     let ruleBin = convertRuleToBinAndReverse(rule);
 
@@ -79,15 +78,36 @@ let getNewCellState = function (cellIndex, rule = 30) {
     return ruleBin[neightboursVal];
 };
 
-function getCursorPosition(canvas, event) {
-    var x, y;
 
-    let canoffset = canvas.getBoundingClientRect();
-    x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - Math.floor(canoffset.left);
-    y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - Math.floor((canoffset.top)) + 1;
+let drawLevel = function (time) {
+    CellArr[time].forEach((cell, index) => {
+        if (cell == 1)
+            drawCell(mapArrToCanvas(index), currentTime * window.gridSize, window.gridSize);
+        else {
+            drawEmpty(mapArrToCanvas(index), currentTime * window.gridSize, window.gridSize);
+        }
+    });
+};
 
-    return [x, y];
-}
+let startCellAutomaton = function () {
+    window.growTime = document.getElementById("growthTime").valueAsNumber + 2;
+    window.numberOfCells = document.getElementById("cells").valueAsNumber;
+    window.occupiedProbability = document.getElementById("occupiedProbability").valueAsNumber / 100;
+    window.rule = document.getElementById("rule").options[document.getElementById("rule").selectedIndex].value;
+    window.periodity = document.getElementById("peroid").checked;
+
+
+    for (currentTime = 0; currentTime < growTime - 1; currentTime++) {
+        let line = "";
+        CellArr[currentTime].forEach((cell, index) => {
+            line += " " + cell;
+            CellArr[currentTime + 1][index] = getNewCellState(index, rule); // set next timestamp cell value
+            drawLevel(currentTime);
+        });
+    }
+
+    drawGrid()
+};
 
 let init = function () {
     window.canvas = document.getElementById("workingCanvas");
@@ -116,39 +136,6 @@ let init = function () {
 
 };
 
-
-let drawLevel = function (time) {
-    CellArr[time].forEach((cell, index) => {
-        if (cell == 1)
-            drawCell(mapArrToCanvas(index), currentTime * window.gridSize, window.gridSize);
-        else {
-            drawEmpty(mapArrToCanvas(index), currentTime * window.gridSize, window.gridSize);
-        }
-    });
-};
-
-
-let startCellAutomaton = function () {
-    window.growTime = document.getElementById("growthTime").valueAsNumber + 2;
-    window.numberOfCells = document.getElementById("cells").valueAsNumber;
-    window.occupiedProbability = document.getElementById("occupiedProbability").valueAsNumber / 100;
-    window.rule = document.getElementById("rule").options[document.getElementById("rule").selectedIndex].value;
-    window.periodity = document.getElementById("peroid").checked;
-
-
-    for (currentTime = 0; currentTime < growTime - 1; currentTime++) {
-        let line = "";
-        CellArr[currentTime].forEach((cell, index) => {
-            line += " " + cell;
-            CellArr[currentTime + 1][index] = getNewCellState(index, rule); // set next timestamp cell value
-            drawLevel(currentTime);
-        });
-    }
-
-    drawGrid()
-};
-
-
 document.addEventListener("DOMContentLoaded", function () {
     window.debugVars = init();
     document.getElementById("workingCanvas").addEventListener('click', function (event) {
@@ -171,4 +158,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }, false);
 });
 
+function getCursorPosition(canvas, event) {
+    var x, y;
+
+    let canoffset = canvas.getBoundingClientRect();
+    x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - Math.floor(canoffset.left);
+    y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - Math.floor((canoffset.top)) + 1;
+
+    return [x, y];
+}
 
