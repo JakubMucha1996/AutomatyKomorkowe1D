@@ -99,10 +99,10 @@ let startCellAutomaton = function () {
 
     for (currentTime = 0; currentTime < growTime - 1; currentTime++) {
         let line = "";
-        CellArr[currentTime].forEach((cell, index) => {
+        window.CellArr[currentTime].forEach((cell, index) => {
             line += " " + cell;
-            CellArr[currentTime + 1][index] = getNewCellState(index, rule); // set next timestamp cell value
-            drawLevel(currentTime);
+            window.CellArr[window.currentTime + 1][index] = getNewCellState(index, window.rule); // set next timestamp cell value
+            drawLevel(window.currentTime);
         });
     }
 
