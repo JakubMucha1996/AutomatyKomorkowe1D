@@ -141,7 +141,7 @@
 
     };
 
-
+    let start = function(){
         window.debugVars = init();
         document.getElementById("workingCanvas").addEventListener('click', function (event) {
 
@@ -161,6 +161,8 @@
 
             }
         }, false);
+    }
+
 
 
     function getCursorPosition(canvas, event) {
@@ -172,6 +174,7 @@
 
         return [x, y];
     }
+
 
     </script>
 </head>
@@ -194,5 +197,6 @@
 <div>
     <canvas id="workingCanvas" width="100%" height="600" style="border:1px solid #d3d3d3"></canvas>
 </div>
+    <script>   let a =  start();</script>
 </body>
 </html>
