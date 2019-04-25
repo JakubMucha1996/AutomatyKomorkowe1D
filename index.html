@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Automaty Komórkowe</title>
+    <script src="script.js"></script>
+</head>
+<body>
+<div>
+
+    Rule:<select id="rule" onclick="startCellAutomaton()">
+        <option value="30" selected="selected">30</option>
+        <option value="60">60</option>
+        <option value="90">90</option>
+        <option value="120">120</option>
+        <option value="225">225</option>
+    </select>
+    &emsp;&emsp;Peroid:<input type="checkbox" id="peroid" onchange="startCellAutomaton()">
+    &emsp;&emsp;no.Cells:<input type="number" id="cells" min="1" max="1000" value="85" onchange="init()">
+    &emsp;&emsp;Growth time:<input type="number" id="growthTime" min="1" max="10000" value="15" onclick="init()">
+    &emsp;&emsp;Occupied probability(%):<input type="number" id="occupiedProbability" min="0" max="100" value="0" onclick="init()" onchange="init()">
+    <button style="float: right;font-size: x-large" onclick="startCellAutomaton()">Run</button>
+</div>
+<div>
+    <canvas id="workingCanvas" width="100%" height="600" style="border:1px solid #d3d3d3"></canvas>
+</div>
+</body>
+</html>
